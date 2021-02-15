@@ -109,6 +109,9 @@ export class CdkDropList<T = any> implements OnDestroy {
   /** Locks the position of the draggable elements inside the container along the specified axis. */
   @Input('cdkDropListLockAxis') lockAxis: DragAxis;
 
+  
+  @Input('shouldNotContainChildren') shouldNotContainChildren: boolean;
+
   /** Whether starting a dragging sequence from this container is disabled. */
   @Input('cdkDropListDisabled')
   get disabled(): boolean {
@@ -217,6 +220,9 @@ export class CdkDropList<T = any> implements OnDestroy {
 
   /** Registers an items with the drop list. */
   addItem(item: CdkDrag): void {
+    if (this.shouldNotContainChildren) {
+      return;
+    }
     this._unsortedItems.add(item);
 
     if (this._dropListRef.isDragging()) {
